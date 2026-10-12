@@ -1,0 +1,26 @@
+name: Publish release
+on:
+  push:
+    tags: ['v*']
+permissions:
+  contents: write
+jobs:
+  release:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm test
+      - run: npm run build:universal
+      - run: npm run package
+      - name: Publish ZIP attachments
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release view "$GITHUB_REF_NAME" > /dev/null 2>&1; then
+            gh release upload "$GITHUB_REF_NAME" dist/*.zip --clobber
+          else
+            gh release create "$GITHUB_REF_NAME" dist/*.zip --verify-tag --title "mac待办同步obsidian $GITHUB_REF_NAME" --notes "Mac 提醒事项与 Obsidian 双向同步。包含通用完整包与插件包；安装、权限与使用说明见 README，变更见 CHANGELOG。"
+          fi

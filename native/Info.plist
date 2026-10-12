@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"><plist version="1.0"><dict>
+<key>CFBundleIdentifier</key><string>local.obsidian.work-reminders</string>
+<key>CFBundleName</key><string>Obsidian 待办同步</string>
+<key>CFBundleDisplayName</key><string>Obsidian 待办同步</string>
+<key>CFBundleExecutable</key><string>reminders-bridge</string>
+<key>CFBundlePackageType</key><string>APPL</string>
+<key>LSMinimumSystemVersion</key><string>14.0</string>
+<key>CFBundleShortVersionString</key><string>1.0.0</string>
+<key>CFBundleVersion</key><string>1</string>
+<key>LSUIElement</key><true/>
+<key>NSRemindersUsageDescription</key><string>将提醒事项与 Obsidian 的平时工作待办双向同步。</string>
+<key>NSRemindersFullAccessUsageDescription</key><string>读取和更新提醒事项，以同步任务标题、完成状态和截止日期。</string>
+</dict></plist>

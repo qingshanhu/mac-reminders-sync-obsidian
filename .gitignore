@@ -1,0 +1,15 @@
+# Build products
+build/
+dist/
+node_modules/
+# Runtime data and local vaults
+.obsidian/
+data.json
+last-backup.md
+conflicts.jsonl
+*.log
+*.local.*
+.env
+.env.*
+.DS_Store
+work/

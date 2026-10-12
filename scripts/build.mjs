@@ -1,0 +1,23 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import {fileURLToPath} from 'node:url';
+import {execFileSync} from 'node:child_process';
+const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
+if(process.platform!=='darwin')throw new Error('Native bridge requires macOS and Xcode Command Line Tools.');
+const run=(cmd,args)=>execFileSync(cmd,args,{cwd:root,stdio:'inherit'});
+const build=path.join(root,'build'),out=path.join(root,'dist/work-reminders-sync');
+fs.mkdirSync(build,{recursive:true});fs.mkdirSync(path.join(out,'RemindersBridge.app/Contents/MacOS'),{recursive:true});
+const core=fs.readFileSync(path.join(root,'src/core.js'),'utf8').replace('module.exports={parse,tagContent,plan,materialize,render,mergeDuringWrite,freshKey,project};','return {parse,tagContent,plan,materialize,render,mergeDuringWrite,freshKey,project};');
+if(core.includes('module.exports'))throw new Error('Core export signature changed; update the bundler.');
+fs.writeFileSync(path.join(out,'main.js'),'const Core = (() => {\n'+core+'\n})();\n'+fs.readFileSync(path.join(root,'src/plugin.js'),'utf8'));
+run(process.execPath,['--check',path.join(out,'main.js')]);
+for(const [src,dest] of [['manifest.json','manifest.json'],['src/styles.css','styles.css'],['native/Info.plist','RemindersBridge.app/Contents/Info.plist']])fs.copyFileSync(path.join(root,src),path.join(out,dest));
+const archs=process.argv.includes('--universal')?['arm64','x86_64']:[process.arch==='arm64'?'arm64':'x86_64'];
+const products=[];
+for(const arch of archs){const file=path.join(build,'reminders-bridge-'+arch);run('xcrun',['swiftc','native/RemindersBridge.swift','-target',arch+'-apple-macosx14.0','-O','-o',file,'-framework','EventKit','-framework','AppKit','-Xlinker','-sectcreate','-Xlinker','__TEXT','-Xlinker','__info_plist','-Xlinker','native/Info.plist','-module-cache-path',path.join(build,'swift-cache')]);products.push(file);}
+const binary=path.join(out,'RemindersBridge.app/Contents/MacOS/reminders-bridge');
+if(products.length===1)fs.copyFileSync(products[0],binary);else run('xcrun',['lipo','-create',...products,'-output',binary]);
+fs.chmodSync(binary,0o755);
+run('codesign',['--force','--deep','--sign','-',path.join(out,'RemindersBridge.app')]);
+run('codesign',['--verify','--deep','--strict',path.join(out,'RemindersBridge.app')]);
+console.log('Built '+out+' ('+archs.join(', ')+')');
