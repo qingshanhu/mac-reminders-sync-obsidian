@@ -1,7 +1,7 @@
 {
   "id": "work-reminders-sync",
   "name": "Mac 待办同步 Obsidian",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "minAppVersion": "1.5.0",
   "description": "Mac 提醒事项与 Obsidian 待办双向同步，默认 5 分钟，支持自动调节周期。",
   "author": "qingshanhu",

@@ -1,15 +1,17 @@
 {
   "name": "mac-reminders-sync-obsidian",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "description": "Mac 提醒事项与 Obsidian 待办双向同步",
   "license": "MIT",
-  "engines": { "node": ">=18" },
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "test": "node tests/core.test.js && node tests/install.test.js",
     "build": "node scripts/build.mjs",
     "build:universal": "node scripts/build.mjs --universal",
-    "package": "node scripts/package.mjs",
+    "package": "node scripts/package.mjs && python3 scripts/verify_package.py",
     "check": "node --check src/core.js && node --check src/plugin.js"
   }
 }

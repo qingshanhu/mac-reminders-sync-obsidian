@@ -28,7 +28,7 @@ Mac 自带「提醒事项」与 Obsidian 固定待办页面的双向同步插件
 
 ## 安装：普通用户
 
-1. 在 [Releases](https://github.com/qingshanhu/mac-reminders-sync-obsidian/releases/latest) 下载 `work-reminders-sync-v1.0.0-plugin.zip`，解压得到 `work-reminders-sync` 文件夹。
+1. 在 [Releases](https://github.com/qingshanhu/mac-reminders-sync-obsidian/releases/latest) 下载 `work-reminders-sync-v1.0.1-plugin.zip`，解压得到 `work-reminders-sync` 文件夹。
 2. 完全退出 Obsidian，将整个文件夹复制到笔记库的 `.obsidian/plugins/` 中。Finder 用 `⌘⇧.` 显示隐藏文件。升级时保留原目录中的 `data.json`、`last-backup.md` 和 `conflicts.jsonl`，仅替换下载包内的程序文件。
 3. 打开 Obsidian → 设置 → 第三方插件，允许第三方插件并启用 **Mac 待办同步 Obsidian**。
 4. 创建 `工作/平时工作/待办.md`，写入下面代码，在阅读视图打开：
@@ -46,7 +46,7 @@ Mac 自带「提醒事项」与 Obsidian 固定待办页面的双向同步插件
 
 ## 安装：完整包与安装脚本
 
-下载并解压 `mac-reminders-sync-obsidian-v1.0.0-universal.zip`。此方法需要 Node.js 18+，无需安装 npm 依赖。
+下载并解压 `mac-reminders-sync-obsidian-v1.0.1-universal.zip`。此方法需要 Node.js 18+，无需安装 npm 依赖。
 
 先完全退出 Obsidian，在解压后的目录运行，将路径换成你的笔记库：
 
@@ -117,7 +117,7 @@ node scripts/install.mjs --vault "/绝对路径/你的笔记库" --folder "个�
 
 ## 源码构建
 
-需要 Node.js 18+、macOS 14+ 和 Xcode Command Line Tools。没有编译工具时运行 `xcode-select --install`，完成系统安装提示。
+需要 Node.js 18+、Python 3、macOS 14+ 和 Xcode Command Line Tools。没有编译工具时运行 `xcode-select --install`，完成系统安装提示。
 
 ```bash
 git clone https://github.com/qingshanhu/mac-reminders-sync-obsidian.git
